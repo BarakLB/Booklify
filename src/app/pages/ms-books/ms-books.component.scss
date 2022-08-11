@@ -1,0 +1,17 @@
+:host{
+  display: block;
+  main{
+    margin: 0 auto;
+    max-width: 380px;
+  }
+  book-filter{
+    // display: flex;
+    margin: 0 auto 20px;
+
+    // justify-content: center;
+  }
+  mat-paginator {
+    background-color: #7b1fa2;
+    width:100%;
+  }
+}
