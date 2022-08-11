@@ -1,0 +1,8 @@
+<main>
+  <book-filter (filterBy)="filterBooks($event)"></book-filter>
+  <app-book-details *ngIf="currBook" [book]="currBook"></app-book-details>
+  <book-list [books]="(books$ | async) ||[]" (currBook)="bookToShow($event)"></book-list>
+</main>
+<mat-paginator color="primary" [length]="totalBooks|async" [pageSize]="24" [pageSizeOptions]="[2, 6, 10, 24]"
+  (page)="handlePagination($event)">
+</mat-paginator>

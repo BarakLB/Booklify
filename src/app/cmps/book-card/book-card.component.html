@@ -1,0 +1,6 @@
+<mat-card>
+  <img [src]="book?.imageLinks?.smallThumbnail">
+  <mat-card-title>{{book?.title}}</mat-card-title>
+  <mat-card-header>{{book?.listPrice?.price | currency}}</mat-card-header>
+  <span *ngIf="book?.listPrice?.isOnSale">SALE</span>
+</mat-card>
