@@ -18,7 +18,8 @@ export class MsBooksComponent implements OnInit {
   filterBy: FilterBy | null = null;
   totalBooks?: Observable<number>;
   pageEvent?: PageEvent;
-  offset?: number;
+  offset: number =0;
+  pageSize: number = 10;
   currBook?: Book;
   books$: Observable<any> = this.store.select((state) => state.books.books);
   constructor(private service: ApiService, private readonly store: Store<AppState>) {
@@ -34,15 +35,16 @@ export class MsBooksComponent implements OnInit {
   }
   filterBooks(q: string) {
     this.filterBy = { q }
-    console.log(`this.filterBy = `, this.filterBy)
-    // this.books = this.service.getBooks(0, 10, { ...this.filterBy })
+    this.store.dispatch(LoadBooks({ i: this.offset, s: this.pageSize, filterBy: this.filterBy }))
     this.totalBooks = this.service.getTotalBooks({ ...this.filterBy })
   }
   handlePagination(ev: PageEvent) {
     console.log(`ev = `, ev)
+    this.pageSize = ev.pageSize
     this.offset = ((ev.pageIndex + 1) - 1) * ev.pageSize;
-    this.books = this.service.getBooks(this.offset, ev.pageSize)
-      .pipe(map(res => res.slice(0, ev.pageSize)))
+    // this.books = this.service.getBooks(this.offset, ev.pageSize)
+    //   .pipe(map(res => res.slice(0, ev.pageSize)))
+    this.store.dispatch(LoadBooks({ i: this.offset, s: ev.pageSize }))
   }
 
   bookToShow(book: Book) {

@@ -49,7 +49,7 @@ export class ApiService {
       })
     )
   }
-  getBooks(i: number, s: number, filterBy: FilterBy = {}): Observable<Book[]> {
+  getBooks(i: number = 0, s: number = 10, filterBy: FilterBy = {}): Observable<Book[]> {
     if (!filterBy.q) filterBy.q = 'angular';
     const query = new URLSearchParams({
       ...filterBy,
