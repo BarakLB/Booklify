@@ -10,7 +10,7 @@ export class Effects {
     this.actions$.pipe(
       ofType(LoadBooks),
       mergeMap(({ i, s, filterBy }) => this.service.getBooks(i, s, filterBy)),
-      tap(res => console.log(`res = `, res)),
+      // tap(res => console.log(`res = `, res)),
       map((books) => BooksLoaded({ books })),
       catchError(() => of(BooksLoaded({ books: [] }))),
     ),

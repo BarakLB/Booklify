@@ -1,5 +1,4 @@
 import { createReducer, on } from "@ngrx/store";
-import { Observable, tap } from "rxjs";
 import { Book } from "../models/book";
 import { FilterBy } from "../models/filter-by";
 import { BooksLoaded } from "./actions";
@@ -10,12 +9,15 @@ export interface booklifyState {
   totalBooks?: number;
 }
 
-const initialState:booklifyState = {
-books: [],
-filterBy: null,
-totalBooks: 0,
+export interface AppState {
+  books:booklifyState
 }
-export const reducer = createReducer(
+const initialState:booklifyState = {
+  books: [],
+  filterBy: null,
+  totalBooks: 0,
+}
+export const reducer = createReducer<booklifyState>(
   initialState,
   on(BooksLoaded, (state, { books }) => ({ ...state, books })),
 )

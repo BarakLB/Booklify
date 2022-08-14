@@ -6,7 +6,7 @@ import { Book } from 'src/app/models/book';
 import { FilterBy } from 'src/app/models/filter-by';
 import { ApiService } from 'src/app/services/api/api.service';
 import { LoadBooks } from 'src/app/store/actions';
-import { booklifyState } from 'src/app/store/book-reducer';
+import { AppState, booklifyState } from 'src/app/store/book-reducer';
 
 @Component({
   selector: 'ms-books',
@@ -20,15 +20,15 @@ export class MsBooksComponent implements OnInit {
   pageEvent?: PageEvent;
   offset?: number;
   currBook?: Book;
-  books$: Observable<Book[]> = this.store.select((state) => state.books.books);
-  constructor(private service: ApiService, private readonly store: Store<booklifyState>) {
+  books$: Observable<any> = this.store.select((state) => state.books.books);
+  constructor(private service: ApiService, private readonly store: Store<AppState>) {
     // cards$: Observable<Card[]> = this.store.select((state) => state.page.cards);
-   }
+  }
 
   ngOnInit(): void {
     // this.books = this.service.getBooks(0, 24)
-    this.store.dispatch(LoadBooks({i:0, s:24}))
-    // console.log(`this.books$ = `, this.books$)
+    this.store.dispatch(LoadBooks({ i: 0, s: 24 }))
+    console.log(`this.books$ = `, this.books$)
     // console.log(`🚀  x = `, x)
     this.totalBooks = this.service.getTotalBooks()
   }

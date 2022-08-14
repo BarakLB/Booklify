@@ -1,9 +1,7 @@
 <main>
-  <pre>{{books$ | async | json}}</pre>
   <router-outlet></router-outlet>
   <book-filter (filterBy)="filterBooks($event)"></book-filter>
   <book-list [books]="(books$ | async) ||[]" (currBook)="bookToShow($event)"></book-list>
-  <!-- <app-book-details *ngIf="currBook" [book]="currBook"></app-book-details> -->
 </main>
 <mat-paginator color="primary" [length]="totalBooks|async" [pageSize]="24" [pageSizeOptions]="[2, 6, 10, 24]"
   (page)="handlePagination($event)">
