@@ -6,6 +6,7 @@ import { BookFilterModule } from 'src/app/cmps/book-filter/book-filter.module';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { HeaderModule } from 'src/app/cmps/header/header.module';
 import { BookDetailsModule } from '../../cmps/book-details/book-details.module';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { BookDetailsModule } from '../../cmps/book-details/book-details.module';
     BookFilterModule,
     MatPaginatorModule,
     HeaderModule,
-    BookDetailsModule
+    BookDetailsModule,
+    RouterModule
   ],
   declarations: [MsBooksComponent,],
   exports: [MsBooksComponent]

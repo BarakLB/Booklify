@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { Book } from 'src/app/models/book';
 import { FilterBy } from 'src/app/models/filter-by';
 import { ApiService } from 'src/app/services/api/api.service';
+import { LoadBooks } from 'src/app/store/actions';
+import { booklifyState } from 'src/app/store/book-reducer';
 
 @Component({
   selector: 'ms-books',
@@ -11,28 +14,34 @@ import { ApiService } from 'src/app/services/api/api.service';
   styleUrls: ['./ms-books.component.scss']
 })
 export class MsBooksComponent implements OnInit {
-  books$?: Observable<Book[]>
+  books?: Observable<Book[]>;
   filterBy: FilterBy | null = null;
   totalBooks?: Observable<number>;
   pageEvent?: PageEvent;
   offset?: number;
   currBook?: Book;
-  constructor(private service: ApiService) { }
+  books$: Observable<Book[]> = this.store.select((state) => state.books.books);
+  constructor(private service: ApiService, private readonly store: Store<booklifyState>) {
+    // cards$: Observable<Card[]> = this.store.select((state) => state.page.cards);
+   }
 
   ngOnInit(): void {
-    this.books$ = this.service.getBooks(0, 24)
+    // this.books = this.service.getBooks(0, 24)
+    this.store.dispatch(LoadBooks({i:0, s:24}))
+    // console.log(`this.books$ = `, this.books$)
+    // console.log(`🚀  x = `, x)
     this.totalBooks = this.service.getTotalBooks()
   }
   filterBooks(q: string) {
     this.filterBy = { q }
     console.log(`this.filterBy = `, this.filterBy)
-    this.books$ = this.service.getBooks(0, 10, { ...this.filterBy })
+    // this.books = this.service.getBooks(0, 10, { ...this.filterBy })
     this.totalBooks = this.service.getTotalBooks({ ...this.filterBy })
   }
   handlePagination(ev: PageEvent) {
     console.log(`ev = `, ev)
     this.offset = ((ev.pageIndex + 1) - 1) * ev.pageSize;
-    this.books$ = this.service.getBooks(this.offset, ev.pageSize)
+    this.books = this.service.getBooks(this.offset, ev.pageSize)
       .pipe(map(res => res.slice(0, ev.pageSize)))
   }
 

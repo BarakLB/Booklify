@@ -23,6 +23,32 @@ export class ApiService {
     return this.http.get(url).pipe(map((res: any) => res.totalItems))
   }
 
+  getBookById(id: any) {
+    const url = `https://www.googleapis.com/books/v1/volumes/${id}`
+    return this.http.get(url).pipe(
+      map((el: any) => {
+        const { id } = el
+        const { title, authors, language, publishedDate, description,
+          subtitle, pageCount, imageLinks, categories } = el.volumeInfo
+        return {
+          id,
+          title,
+          authors,
+          language,
+          publishedDate,
+          description,
+          imageLinks,
+          subtitle,
+          pageCount,
+          categories,
+          listPrice: {
+            price: getRandomIntInclusive(10, 200),
+            isOnSale: getRandomBoolean()
+          }
+        }
+      })
+    )
+  }
   getBooks(i: number, s: number, filterBy: FilterBy = {}): Observable<Book[]> {
     if (!filterBy.q) filterBy.q = 'angular';
     const query = new URLSearchParams({
